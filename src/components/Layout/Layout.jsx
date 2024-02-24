@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SideBar";
@@ -6,9 +6,9 @@ import Sidebar from "./SideBar";
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode");
+  }, []);
 
   return (
     <div className="flex relative">

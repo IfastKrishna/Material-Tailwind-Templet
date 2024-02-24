@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Typography,
@@ -20,16 +20,35 @@ import { Link, useNavigate } from "react-router-dom";
 import LogoutWrapper from "./Logout";
 
 export default function StickyNavbar({ isSidebarOpen, setIsSidebarOpen }) {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  const [navbarShadow, setNavbarShadow] = useState(true);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setNavbarShadow(currentScrollPos === 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Navbar className="sticky top-0 h-max max-w-full shadow-md rounded-none py-2 lg:px-8 lg:py-4 z-50">
+    <Navbar
+      className={`sticky top-0 h-max max-w-full shadow-${
+        navbarShadow ? "sm" : "md"
+      } rounded-none py-2 lg:px-8 lg:py-4 z-50`}
+    >
       <div className="flex items-center justify-between text-blue-gray-900">
         <div className="flex items-center gap-4">
           <IconButton
             variant="text"
-            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent"
+            className="rounded-full"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
             <svg
@@ -53,22 +72,22 @@ export default function StickyNavbar({ isSidebarOpen, setIsSidebarOpen }) {
           </Link>
         </div>
         {isAuthenticated ? (
-          <Menu>
+          <Menu placement="bottom-end">
             <MenuHandler>
               <Avatar
                 variant="circular"
                 size="sm"
                 alt="tania andrew"
-                className="border border-gray-800 p-0.5"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+                className="border border-gray-800 p-0.5 cursor-pointer"
+                src={user?.avatar}
               />
             </MenuHandler>
             <MenuList>
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/profile")}>
                 <UserCircleIcon className="h-6 w-6 pr-1.5 inline" />
                 Profile
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => navigate("settings")}>
                 <Cog8ToothIcon className="h-6 w-6 pr-1.5 inline" />
                 Settings
               </MenuItem>

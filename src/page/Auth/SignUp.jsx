@@ -6,8 +6,34 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import Api from "../Api/api";
+import toast from "react-hot-toast";
+import { handleError } from "../../utils/hadleError";
 
 export default function SingUp() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const registerUser = async (user) => {
+    try {
+      setLoading(true);
+      const res = await Api.post("users/register", user);
+      toast.success(res.data.message);
+      setLoading(false);
+      navigate("/login");
+    } catch (err) {
+      toast.error(handleError(err.response.data));
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full flex justify-center pt-10">
       <Card color="transparent" shadow={false}>
@@ -17,16 +43,42 @@ export default function SingUp() {
         <Typography color="gray" className="mt-1 font-normal">
           Nice to meet you! Enter your details to register.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg">
+        <form
+          className="mt-8 mb-2 w-80 max-w-screen-lg"
+          onSubmit={handleSubmit(registerUser)}
+        >
           <div className="mb-1 flex flex-col gap-6">
-            <Input size="lg" placeholder="name@mail.com" label="Your Name" />
-
-            <Input size="lg" placeholder="name@mail.com" label="Your Email" />
             <Input
               size="lg"
-              placeholder="xxx-xxx-xxxx"
+              placeholder="name@mail.com"
+              label="Your Name"
+              error={errors.name ? true : false}
+              {...register("name", { required: "Name is required" })}
+            />
+
+            <Input
+              size="lg"
+              placeholder="name@mail.com"
+              label="Your Email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              })}
+              error={errors.email ? true : false}
+            />
+            <Input
+              size="lg"
+              placeholder="xxxxxxxxxx"
               label="Your Phone"
               type="tel"
+              {...register("phone", {
+                required: "Phone Number is required",
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: "Please enter a valid Phone Number",
+                },
+              })}
+              error={errors.phone ? true : false}
             />
 
             <Input
@@ -34,9 +86,12 @@ export default function SingUp() {
               size="lg"
               placeholder="********"
               label="Your Password"
+              {...register("password", { required: "Password is required" })}
+              error={errors.password ? true : false}
             />
           </div>
           <Checkbox
+            {...register("terms", { required: "Terms and Conditions" })}
             label={
               <Typography
                 variant="small"
@@ -54,7 +109,12 @@ export default function SingUp() {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
+          <Button
+            type="submit"
+            className="mt-6 flex justify-center"
+            fullWidth
+            loading={loading}
+          >
             sign up
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
