@@ -3,7 +3,7 @@ import { Layout } from "./components";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Api from "./page/Api/api";
+import Api from "./utils/Api/api";
 import { login } from "./store/features/authSlice";
 
 const App = () => {

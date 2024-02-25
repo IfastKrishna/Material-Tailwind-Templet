@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import Api from "../Api/api";
+import Api from "../../utils/Api/api";
 import toast from "react-hot-toast";
 import { handleError } from "../../utils/hadleError";
 

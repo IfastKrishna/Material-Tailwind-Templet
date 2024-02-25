@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/features/authSlice";
-import Api from "../Api/api.js";
+import Api from "../../utils/Api/api.js";
 import toast from "react-hot-toast";
 import { useState } from "react";
 

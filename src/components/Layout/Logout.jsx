@@ -1,5 +1,5 @@
 import React from "react";
-import Api from "../../page/Api/api";
+import Api from "../../utils/Api/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/features/authSlice";
