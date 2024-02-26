@@ -24,13 +24,15 @@ const App = () => {
         navigate("/login", { replace: true });
       });
   }, [isAuthenticated]);
-  return (
-    !loading && (
-      <div>
-        <Layout />
-        <Toaster />
-      </div>
-    )
+  return !loading ? (
+    <div>
+      <Layout />
+      <Toaster />
+    </div>
+  ) : (
+    <>
+      <p>loading</p>
+    </>
   );
 };
 

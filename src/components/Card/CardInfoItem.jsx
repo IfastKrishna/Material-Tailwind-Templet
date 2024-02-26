@@ -17,6 +17,7 @@ function InfoCardItem({
   py = 4,
   px = 0,
   bt = 0,
+  inputType = "text",
   itemName,
   itemValue,
   suffixItem = (
@@ -37,7 +38,6 @@ function InfoCardItem({
     </svg>
   ),
 }) {
-  const id = useId();
   const [input, setInput] = useState(itemValue);
   const [open, setOpen] = useState(false);
 
@@ -62,7 +62,6 @@ function InfoCardItem({
         </div>
       </ListItem>
       <Dialog
-        id={id}
         size="xs"
         open={open}
         handler={handleOpen}
@@ -84,13 +83,23 @@ function InfoCardItem({
               <Typography className="-mb-2" variant="h6">
                 {itemName}
               </Typography>
-              <Input
-                label={itemName}
-                size="lg"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-
+              {inputType === "date" ? (
+                <Input
+                  label={itemName}
+                  size="lg"
+                  type={inputType}
+                  defaultValue={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              ) : (
+                <Input
+                  label={itemName}
+                  size="lg"
+                  type={inputType}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              )}
               <div className="-ml-2.5 -mt-3">
                 <Checkbox label="Remember Me" />
               </div>

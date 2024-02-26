@@ -52,7 +52,10 @@ function Profile() {
           <InfoCardItem itemName="Name" itemValue={user?.name} />
           <InfoCardItem
             itemName="Birthdate"
-            itemValue={user?.dateOfBirth || "02/02/2004"}
+            inputType="date"
+            itemValue={
+              user?.dateOfBirth || new Date().toISOString().slice(0, 10)
+            }
             bt={1}
           />
           <InfoCardItem
