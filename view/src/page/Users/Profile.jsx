@@ -3,10 +3,12 @@ import {
   ListItem,
   Typography,
   ListItemSuffix,
+  avatar,
 } from "@material-tailwind/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import { InfoCard, InfoCardItem } from "../../components/Card";
+import AvatarUploader from "../../components/Card/AvatrUploader";
 
 function Profile() {
   const user = useSelector((state) => state.auth.user);
@@ -32,23 +34,19 @@ function Profile() {
           infoName={"Basic info"}
           infoDescription="Some info may be visible to other people using App services."
         >
-          <ListItem className="py-5 grid grid-cols-4 rounded-none">
-            <Typography variant="small" className="col-span-1">
-              Profile Picture
-            </Typography>
-            <div className="col-span-3 flex items-center">
-              <Typography variant="small" className="mr-2">
-                A profile picture helps personalize your account
-              </Typography>
-              <ListItemSuffix>
-                <Avatar
-                  src={user?.avatar}
-                  size="md"
-                  className="h-10 w-10 rounded-full"
-                />
-              </ListItemSuffix>
-            </div>
-          </ListItem>
+          <InfoCardItem
+            itemName="Profile Picture"
+            py={5}
+            suffixItem={
+              <Avatar
+                src={user?.avatar}
+                size="md"
+                className="h-10 w-10 rounded-full"
+              />
+            }
+            itemValue="A profile picture helps personalize your account"
+            HandleInfoComponent={<AvatarUploader avatar={user?.avatar} />}
+          />
           <InfoCardItem itemName="Name" itemValue={user?.name} />
           <InfoCardItem
             itemName="Birthdate"

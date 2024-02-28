@@ -129,7 +129,7 @@ function InfoCardItem({
             </CardFooter>
           </Card>
         ) : (
-          <HandleInfoComponent itemName={itemName} itemValue={itemValue} />
+          HandleInfoComponent
         )}
       </Dialog>
     </>
